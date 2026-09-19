@@ -21,4 +21,4 @@ export const DHIKR_LIST: Dhikr[] = [
 export const DEFAULT_DHIKR_ID = DHIKR_LIST[0].id;
 
 /** 0 means "no limit". */
-export const GOALS = [33, 99, 100, 0] as const;
+export const GOALS = [33, 50, 99, 100, 0] as const;

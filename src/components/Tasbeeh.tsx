@@ -67,7 +67,7 @@ export function Tasbeeh({ prefs, onPrefsChange }: TasbeehProps) {
   };
 
   return (
-    <section aria-labelledby="tasbeeh-title" className="flex flex-col items-center gap-6">
+    <section aria-labelledby="tasbeeh-title" className="flex flex-col items-center gap-8">
       <h2 id="tasbeeh-title" className="sr-only">
         المسبحة
       </h2>
@@ -75,7 +75,7 @@ export function Tasbeeh({ prefs, onPrefsChange }: TasbeehProps) {
       <button
         type="button"
         onClick={() => setPickerOpen(true)}
-        className="glass flex min-h-14 w-full max-w-md items-center justify-between gap-3 rounded-2xl px-5 py-3 text-start transition-colors hover:bg-white/8"
+        className="glass flex min-h-16 w-full max-w-md items-center justify-between gap-4 rounded-2xl px-6 py-4 text-start transition-colors hover:bg-white/8"
         aria-haspopup="dialog"
       >
         <span className="text-[1.05rem] font-medium leading-relaxed">{dhikr.text}</span>
@@ -87,18 +87,22 @@ export function Tasbeeh({ prefs, onPrefsChange }: TasbeehProps) {
         {fmt(t.count)}
       </span>
 
-      <dl className="flex w-full max-w-md justify-center gap-10 text-center">
-        <div>
-          <dt className="text-xs text-mute">الجولات المكتملة</dt>
-          <dd className="mt-0.5 font-display text-lg">{fmt(t.rounds)}</dd>
-        </div>
+      <div className="min-h-10 text-center" aria-live="polite" role="status">
+        {t.completionGoal && (
+          <p className="rounded-full border border-emerald-glow/30 bg-emerald-glow/10 px-5 py-2 text-sm font-medium text-emerald-glow">
+            {dhikr.id === 'istighfar' ? 'تمّ الاستغفار' : 'تمّ الذكر'} {fmt(t.completionGoal)} مرة
+          </p>
+        )}
+      </div>
+
+      <dl className="flex w-full max-w-md justify-center gap-12 text-center">
         <div>
           <dt className="text-xs text-mute">مجموع هذا الذكر</dt>
-          <dd className="mt-0.5 font-display text-lg">{fmt(t.total)}</dd>
+          <dd className="mt-1 font-display text-lg">{fmt(t.total)}</dd>
         </div>
       </dl>
 
-      <div className="flex items-center justify-center gap-1">
+      <div className="flex items-center justify-center gap-3">
         <Control label="تراجع" onClick={t.undo}>
           <UndoIcon />
         </Control>
@@ -121,7 +125,7 @@ export function Tasbeeh({ prefs, onPrefsChange }: TasbeehProps) {
         </Control>
       </div>
 
-      <div role="radiogroup" aria-label="هدف الجولة" className="grid w-full max-w-md grid-cols-4 gap-2">
+      <div role="radiogroup" aria-label="هدف التسبيح" className="grid w-full max-w-md grid-cols-3 gap-3 sm:grid-cols-5">
         {GOALS.map((g) => {
           const selected = t.goal === g;
           return (

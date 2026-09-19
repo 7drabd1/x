@@ -77,6 +77,12 @@ export const SoundOffIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const PlayIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <polygon points="8 5 19 12 8 19 8 5" />
+  </Icon>
+);
+
 export const VibrateIcon = (p: IconProps) => (
   <Icon {...p}>
     <rect x="7" y="3" width="10" height="18" rx="2" />

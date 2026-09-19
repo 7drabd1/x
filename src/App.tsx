@@ -63,7 +63,7 @@ export default function App() {
 
         <MemorialBanner onOpenIntent={() => setIntentOpen(true)} />
 
-        <main className="grid flex-1 gap-10 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:items-start lg:gap-14">
+        <main className="grid flex-1 gap-14 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:items-start lg:gap-16">
           <div className={`${view === 'tasbeeh' ? 'block' : 'hidden'} lg:sticky lg:top-6 lg:block`}>
             <Tasbeeh prefs={prefs} onPrefsChange={patchPrefs} />
           </div>

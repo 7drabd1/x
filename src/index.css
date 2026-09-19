@@ -163,7 +163,7 @@ body {
 /* ───────── Dua text ───────── */
 .dua-text {
   font-size: clamp(1.2rem, 1.02rem + 0.9vw, 1.5rem);
-  line-height: 2.25;
+  line-height: 2.5;
   font-weight: 500;
   text-wrap: pretty;
 }

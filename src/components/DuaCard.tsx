@@ -1,8 +1,9 @@
+import { useRef } from 'react';
 import type { Dua } from '../data/adhkar';
 import { fmt } from '../lib/format';
 import { vibrate } from '../lib/feedback';
 import { copyText, formatDua, shareText } from '../lib/share';
-import { CheckIcon, CopyIcon, ResetIcon, ShareIcon } from './Icons';
+import { CheckIcon, CopyIcon, PlayIcon, ResetIcon, ShareIcon } from './Icons';
 
 interface DuaCardProps {
   dua: Dua;
@@ -19,6 +20,7 @@ function repeatLabel(n: number): string {
 }
 
 export function DuaCard({ dua, count, haptics, onCount, onResetCount, onToast }: DuaCardProps) {
+  const audioRef = useRef<HTMLAudioElement>(null);
   const target = dua.repeat ?? 0;
   const done = target > 0 && count >= target;
   const progress = target > 0 ? Math.min(count / target, 1) : 0;
@@ -37,16 +39,28 @@ export function DuaCard({ dua, count, haptics, onCount, onResetCount, onToast }:
     if (result === 'whatsapp') onToast('فُتح واتساب للمشاركة');
   };
 
+  const playAudio = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    try {
+      audio.currentTime = 0;
+      await audio.play();
+    } catch {
+      onToast('أضف ملف التلاوة المحلي إلى audio/sound.mp3');
+    }
+  };
+
   return (
-    <article className="glass rounded-3xl p-5 sm:p-7">
+    <article className="glass rounded-3xl p-6 sm:p-8">
+      {dua.quran && <audio ref={audioRef} className="hidden" preload="none" src="./audio/sound.mp3" />}
       <p className={`dua-text ${dua.quran ? 'text-gold-soft' : 'text-ink'}`}>
         {dua.quran ? `﴿ ${dua.text} ﴾` : dua.text}
       </p>
 
-      {dua.note && <p className="mt-3 text-sm leading-loose text-mute">{dua.note}</p>}
-      {dua.source && <p className="mt-3 text-sm text-gold/80">{dua.source}</p>}
+      {dua.note && <p className="mt-5 text-sm leading-loose text-mute">{dua.note}</p>}
+      {dua.source && <p className="mt-5 text-sm leading-relaxed text-gold/80">{dua.source}</p>}
 
-      <div className="mt-5 flex items-stretch gap-2">
+      <div className="mt-7 flex flex-wrap items-stretch gap-3">
         <button
           type="button"
           onClick={tap}
@@ -83,6 +97,11 @@ export function DuaCard({ dua, count, haptics, onCount, onResetCount, onToast }:
         {count > 0 && (
           <button type="button" onClick={() => onResetCount(dua.id)} aria-label="تصفير عدّاد الدعاء" className="icon-btn">
             <ResetIcon size={20} />
+          </button>
+        )}
+        {dua.quran && (
+          <button type="button" onClick={playAudio} aria-label="تشغيل تلاوة الآية" className="icon-btn">
+            <PlayIcon size={20} />
           </button>
         )}
         <button type="button" onClick={copy} aria-label="نسخ الدعاء" className="icon-btn">

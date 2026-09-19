@@ -17,7 +17,7 @@ const BEAD_RADIUS = 149;
 const CIRCUMFERENCE = 2 * Math.PI * ARC_RADIUS;
 
 /**
- * The tasbeeh: a ring of beads that light up one by one, a gold arc that fills with the round,
+ * The tasbeeh: a ring of beads that light up one by one, with a gold arc filling toward the goal,
  * and one large button in the middle. In unlimited mode the ring turns once every 33.
  */
 export function TasbeehRing({ count, goal, tapKey, onTap }: TasbeehRingProps) {
@@ -91,7 +91,7 @@ export function TasbeehRing({ count, goal, tapKey, onTap }: TasbeehRingProps) {
           {fmt(count)}
         </span>
         <span className="mt-3 text-sm text-mute">
-          {complete ? 'تمّت الجولة' : goal > 0 ? `من ${fmt(goal)}` : 'بلا حدّ'}
+          {complete ? 'تمّ العدد' : goal > 0 ? `من ${fmt(goal)}` : 'بلا حدّ'}
         </span>
       </button>
     </div>

@@ -41,7 +41,7 @@ export function DuaSection({ prefs, onToast }: DuaSectionProps) {
     });
 
   return (
-    <section aria-labelledby="duas-title" className="flex flex-col gap-5">
+    <section aria-labelledby="duas-title" className="flex flex-col gap-7">
       <h2 id="duas-title" className="font-display text-2xl text-gold-soft">
         الأدعية والأذكار
       </h2>
@@ -94,7 +94,7 @@ export function DuaSection({ prefs, onToast }: DuaSectionProps) {
         </div>
       )}
 
-      <div id="dua-panel" role="tabpanel" aria-labelledby={`tab-${category}`} className="flex flex-col gap-4">
+      <div id="dua-panel" role="tabpanel" aria-labelledby={`tab-${category}`} className="flex flex-col gap-6">
         {visible.map((dua) => (
           <DuaCard
             key={dua.id}
