@@ -1,48 +1,44 @@
-# صدقة جارية — Tasbeeh & Dua
+صدقة جارية — تسبيح ودعاء
 
-An Arabic, RTL, mobile-first digital tasbeeh and dua platform dedicated as Sadaqah Jariyah for
-**سليم بن علي الحمداني**. No ads, no tracking, no backend. Installable and fully offline.
+منصة تسبيح وأدعية عربية، بتصميم RTL، مخصّصة للجوال أولًا، مُهداة صدقةً جارية لروح المرحوم
+سليم بن علي الحمداني. بدون إعلانات، بدون تتبّع، بدون خادم خلفي. قابلة للتثبيت وتعمل دون اتصال بالإنترنت بالكامل.
 
-Stack: React 19 + TypeScript, Vite, Tailwind CSS v4. Fonts (Tajawal, Kufam) are bundled, so the site never calls Google Fonts or any other third party.
+🔗 رابط الموقع: https://7drabd1.github.io/x/
 
-## Run
+التقنيات: React 19 + TypeScript، وVite، وTailwind CSS v4. الخطوط (Tajawal وKufam) مُضمَّنة داخل المشروع، لذا لا يتصل الموقع أبدًا بـ Google Fonts أو أي طرف ثالث.
+
+التشغيل
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # type-checks, then outputs ./dist
-npm run preview    # serve the production build (needed to try the service worker)
+npm run build      # يفحص الأنواع ثم يُخرج مجلد ./dist
+npm run preview    # لتشغيل نسخة الإنتاج (مطلوب لتجربة service worker)
 ```
 
-Requires Node 20.19+ (or 22+).
+يتطلب Node 20.19+ (أو 22+).
 
-## Deploy
+النشر
 
-**Vercel** — import the repo. Vite is detected automatically; nothing to configure.
+Vercel — استورد المستودع، وسيتم التعرف على Vite تلقائيًا دون أي إعداد.
 
-**GitHub Pages** — push to `main`, then in the repo go to *Settings → Pages → Source* and pick **GitHub Actions**.
-`.github/workflows/deploy.yml` builds and publishes. The build uses relative asset paths, so it works under `/repo-name/` without any config.
+GitHub Pages — ادفع التغييرات إلى فرع main، ثم من المستودع اذهب إلى Settings → Pages → Source واختر GitHub Actions.
+يقوم الملف .github/workflows/deploy.yml بالبناء والنشر تلقائيًا. يستخدم البناء مسارات نسبية للأصول، لذا يعمل تحت /repo-name/ دون أي إعداد إضافي.
 
-Any static host works too: upload the contents of `dist/`.
+أي استضافة ملفات ثابتة تكفي أيضًا: ارفع محتويات مجلد dist/ فقط.
 
-## Edit the content
+تعديل المحتوى
 
-| What | Where |
-| --- | --- |
-| Name, dedication line, prayer line | `src/data/memorial.ts` |
-| Duas, adhkar and their sources | `src/data/adhkar.ts` |
-| Tasbeeh phrases and goal options | `src/data/dhikr.ts` |
-| Colours, background speed | `src/index.css` (variables at the top, `drift-*` keyframes) |
+ماذا أين
+الاسم، سطر الإهداء، سطر الدعاء src/data/memorial.ts
+الأدعية والأذكار ومصادرها src/data/adhkar.ts
+عبارات التسبيح وخيارات الهدف src/data/dhikr.ts
+الألوان، سرعة الخلفية src/index.css (المتغيرات في الأعلى، وحركات drift-*)
 
-If you change the name, also update the two vocalised forms in `memorial.ts`: the duas use them so the Arabic grammar stays correct.
+إذا غيّرت الاسم، فحدّث أيضًا الصيغتين المُشكَّلتين في memorial.ts، إذ تعتمد عليهما الأدعية للحفاظ على سلامة القواعد النحوية للعربية.
 
-## How it works
+كيف يعمل الموقع
 
-- **Tasbeeh**: `useTasbeeh` keeps a count per phrase (plus rounds and lifetime totals) in `localStorage` through the `useLocalStorage` hook. Goals: 33, 99, 100 or unlimited. Every tap calls `navigator.vibrate(20)`; completing a round plays a longer pattern. Sound is synthesised with the Web Audio API and is off by default.
-- **Background**: three drifting gradient pools (transform-only animation, 90–130 s loops), a faint star lattice, and a canvas of slow gold and emerald dust that eases aside from the cursor or a finger. It pauses when the tab is hidden and stays still when the visitor has "reduce motion" enabled.
-- **Offline**: `public/sw.js` is filled with the full file list at build time (`vite.config.ts`), so everything is cached on the first visit. The cache name changes with every build, so updates arrive on the next load.
-
-## Notes
-
-- iOS Safari does not implement the Vibration API, so iPhone visitors get no haptics (everything else works).
-- Have someone who reads Arabic well proofread `adhkar.ts` before you publish. The texts are standard, widely circulated ones with their sources, but for religious text a second pair of eyes is worth it.
+· التسبيح: يحفظ الخطاف useTasbeeh العدّ لكل عبارة (مع الجولات والإجمالي التراكمي) في localStorage عبر الخطاف useLocalStorage. الأهداف: 33، 99، 100 أو بلا حد. كل نقرة تُشغّل navigator.vibrate(20)، وعند إكمال الجولة يُشغَّل نمط اهتزاز أطول. الصوت يُولَّد عبر Web Audio API وهو مُعطَّل افتراضيًا.
+· الخلفية: ثلاث بُقع متدرّجة متحركة (تحريك عبر transform فقط، بحلقات تمتد من 90 إلى 130 ثانية)، وشبكة نجوم خفيفة، ولوحة من غبار ذهبي وزمرّدي بطيء ينزاح بعيدًا عن المؤشر أو الإصبع. تتوقف عند إخفاء التبويب وتبقى ساكنة لمن فعّل خيار "تقليل الحركة".
+· العمل دون اتصال: يُملأ الملف public/sw.js بقائمة الملفات الكاملة عند البناء (vite.config.ts)، فيُخزَّن كل شيء مؤقتًا عند أول زيارة. يتغيّر اسم الذاكرة المؤقتة مع كل بناء، لذا تصل التحديثات عند التحميل التالي.
