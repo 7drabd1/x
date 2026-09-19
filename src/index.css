@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Tajawal", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Kufam Variable", "Tajawal", ui-sans-serif, system-ui, sans-serif;
+
+  --color-gold: #d4af37;
+  --color-gold-soft: #e2c044;
+  --color-emerald-glow: #10b981;
+  --color-ink: #f8fafc;
+  --color-mute: #94a3b8;
+}
+
+/* ───────── Palette (two themes, toggled from the header) ───────── */
+:root {
+  color-scheme: dark;
+  --bg: #061a14;
+  --bg-deep: #0a0f1d;
+  --pool-a: rgba(16, 185, 129, 0.26);
+  --pool-b: rgba(212, 175, 55, 0.14);
+  --pool-c: rgba(20, 90, 70, 0.34);
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-strong: rgba(9, 24, 21, 0.88);
+  --line: rgba(255, 255, 255, 0.08);
+}
+:root[data-theme="slate"] {
+  --bg: #0a0f1d;
+  --bg-deep: #0d1117;
+  --pool-a: rgba(56, 96, 170, 0.24);
+  --pool-b: rgba(212, 175, 55, 0.13);
+  --pool-c: rgba(16, 185, 129, 0.15);
+  --surface-strong: rgba(11, 16, 30, 0.9);
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  min-height: 100dvh;
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+:focus-visible {
+  outline: 2px solid var(--color-gold-soft);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+::selection {
+  background: rgba(212, 175, 55, 0.35);
+}
+
+/* ───────── Background engine ───────── */
+.bg-root {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+}
+.mesh,
+.blob {
+  position: absolute;
+}
+.mesh {
+  inset: 0;
+}
+.blob {
+  width: 85vmax;
+  height: 85vmax;
+  border-radius: 50%;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+.blob-a {
+  top: -32vmax;
+  inset-inline-start: -28vmax;
+  background: radial-gradient(circle, var(--pool-a) 0%, transparent 62%);
+  animation: drift-a 90s ease-in-out infinite alternate;
+}
+.blob-b {
+  bottom: -38vmax;
+  inset-inline-end: -30vmax;
+  background: radial-gradient(circle, var(--pool-b) 0%, transparent 60%);
+  animation: drift-b 110s ease-in-out infinite alternate;
+}
+.blob-c {
+  top: 22vh;
+  inset-inline-end: -45vmax;
+  background: radial-gradient(circle, var(--pool-c) 0%, transparent 65%);
+  animation: drift-c 130s ease-in-out infinite alternate;
+}
+@keyframes drift-a {
+  to { transform: translate3d(14vmax, 12vmax, 0) scale(1.12); }
+}
+@keyframes drift-b {
+  to { transform: translate3d(-16vmax, -10vmax, 0) scale(1.18); }
+}
+@keyframes drift-c {
+  to { transform: translate3d(-22vmax, 8vmax, 0) scale(0.9); }
+}
+.lattice {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23D4AF37' stroke-opacity='.075' stroke-width='1'%3E%3Crect x='24' y='24' width='48' height='48'/%3E%3Crect x='24' y='24' width='48' height='48' transform='rotate(45 48 48)'/%3E%3Ccircle cx='48' cy='48' r='7'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 72%);
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, transparent 45%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+@layer components {
+/* ───────── Surfaces and controls ───────── */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+.sheet {
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
+}
+.icon-btn {
+  display: inline-flex;
+  min-width: 3rem;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  color: var(--color-mute);
+  transition: color 0.2s, background-color 0.2s, transform 0.15s;
+  touch-action: manipulation;
+}
+.icon-btn:hover {
+  color: var(--color-ink);
+  background: rgba(255, 255, 255, 0.06);
+}
+.icon-btn:active {
+  transform: scale(0.94);
+}
+.icon-btn[aria-pressed="true"] {
+  color: var(--color-gold-soft);
+}
+.text-gold-gradient {
+  background: linear-gradient(180deg, #f6e3a1 0%, #e2c044 45%, #b8922a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ───────── Dua text ───────── */
+.dua-text {
+  font-size: clamp(1.2rem, 1.02rem + 0.9vw, 1.5rem);
+  line-height: 2.25;
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+/* Tasbeeh count button */
+.count-button {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(226, 192, 68, 0.13), transparent 62%),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(226, 192, 68, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 50px rgba(0, 0, 0, 0.35);
+  transition: transform 0.12s ease-out, box-shadow 0.3s;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.count-button:active {
+  transform: scale(0.965);
+}
+}
+
+/* ───────── Tasbeeh ring ───────── */
+.ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  border: 2px solid rgba(226, 192, 68, 0.55);
+  animation: ripple 0.7s ease-out forwards;
+}
+@keyframes ripple {
+  from { transform: scale(0.72); opacity: 0.8; }
+  to { transform: scale(1.08); opacity: 0; }
+}
+.bead-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bead-pulse 0.55s ease-out forwards;
+}
+@keyframes bead-pulse {
+  from { transform: scale(1); opacity: 0.9; }
+  to { transform: scale(3.4); opacity: 0; }
+}
+.ring-complete {
+  animation: ring-glow 0.9s ease-out;
+}
+@keyframes ring-glow {
+  0% { filter: drop-shadow(0 0 0 rgba(226, 192, 68, 0)); }
+  35% { filter: drop-shadow(0 0 14px rgba(226, 192, 68, 0.75)); }
+  100% { filter: drop-shadow(0 0 0 rgba(226, 192, 68, 0)); }
+}
+.toast-in {
+  animation: toast-in 0.25s ease-out;
+}
+@keyframes toast-in {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ───────── Motion preferences ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .blob,
+  .ripple,
+  .bead-pulse,
+  .ring-complete,
+  .toast-in {
+    animation: none;
+  }
+  .sheet {
+    transition: none !important;
+  }
+}
