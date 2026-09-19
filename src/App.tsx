@@ -65,7 +65,7 @@ export default function App() {
 
         <main className="grid flex-1 gap-14 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:items-start lg:gap-16">
           <div className={`${view === 'tasbeeh' ? 'block' : 'hidden'} lg:sticky lg:top-6 lg:block`}>
-            <Tasbeeh prefs={prefs} onPrefsChange={patchPrefs} />
+            <Tasbeeh prefs={prefs} onPrefsChange={patchPrefs} onToast={showToast} />
           </div>
           <div className={`${view === 'duas' ? 'block' : 'hidden'} lg:block`}>
             <DuaSection prefs={prefs} onToast={showToast} />

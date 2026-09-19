@@ -3,6 +3,7 @@ import { DHIKR_LIST, GOALS } from '../data/dhikr';
 import { useTasbeeh, type Prefs } from '../hooks/useTasbeeh';
 import { fmt } from '../lib/format';
 import { TasbeehRing } from './TasbeehRing';
+import { QuranPlayer } from './QuranPlayer';
 import { Sheet } from './Sheet';
 import {
   CheckIcon,
@@ -17,6 +18,7 @@ import {
 interface TasbeehProps {
   prefs: Prefs;
   onPrefsChange: (patch: Partial<Prefs>) => void;
+  onToast: (message: string) => void;
 }
 
 function Control({
@@ -43,7 +45,7 @@ function Control({
   );
 }
 
-export function Tasbeeh({ prefs, onPrefsChange }: TasbeehProps) {
+export function Tasbeeh({ prefs, onPrefsChange, onToast }: TasbeehProps) {
   const t = useTasbeeh(prefs);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [resetArmed, setResetArmed] = useState(false);
@@ -81,6 +83,8 @@ export function Tasbeeh({ prefs, onPrefsChange }: TasbeehProps) {
         <span className="text-[1.05rem] font-medium leading-relaxed">{dhikr.text}</span>
         <ChevronDownIcon className="shrink-0 text-gold-soft" />
       </button>
+
+      <QuranPlayer onToast={onToast} />
 
       <TasbeehRing count={t.count} goal={t.goal} tapKey={t.total} onTap={t.tap} />
       <span className="sr-only" role="status" aria-live="polite">
