@@ -51,5 +51,9 @@ function precacheServiceWorker(): Plugin {
 export default defineConfig({
   // Relative base: the same build works at a domain root (Vercel) and under /repo-name/ (GitHub Pages).
   base: './',
+  // The sandbox exposes the preview server through this public host.
+  preview: {
+    allowedHosts: ['4173-iscnrhtyej4sy8xw87gfx-e34b08f0.sg2.manus.computer'],
+  },
   plugins: [react(), tailwindcss(), precacheServiceWorker()],
 });
